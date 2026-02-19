@@ -1,4 +1,4 @@
-name: DevSec pipeline
+name: Devsec pipeline
 
 on:
   push:
