@@ -107,5 +107,5 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-          kubectl apply -f kubernetes/
+          kubectl apply -f Kubernetes/
           kubectl rollout status deployment/netflix
