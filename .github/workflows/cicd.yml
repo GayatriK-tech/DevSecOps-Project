@@ -55,7 +55,8 @@ jobs:
     needs: build_project_and_sonar_scan
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -93,6 +94,9 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Install kubectl
+        uses: google-github-actions/setup-kubectl@v2
+
       - name: Get GKE credentials
         uses: google-github-actions/get-gke-credentials@v2
         with:
@@ -100,5 +104,6 @@ jobs:
           location: ${{ secrets.GKE_ZONE }}
 
       - name: Deploy to GKE
-        run: kubectl apply -f kubernetes/
-        
+        run: |
+          kubectl apply -f kubernetes/
+          kubectl rollout status deployment/netflix
