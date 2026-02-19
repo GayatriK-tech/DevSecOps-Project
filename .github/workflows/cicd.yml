@@ -108,4 +108,4 @@ jobs:
       - name: Deploy to GKE
         run: |
           kubectl apply -f Kubernetes/
-          kubectl rollout status deployment/netflix
+          kubectl rollout status deployment/netflix-app
