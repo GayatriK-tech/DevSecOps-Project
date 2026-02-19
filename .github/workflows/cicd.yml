@@ -74,14 +74,8 @@ jobs:
 
       - name: Push Docker Image
         run: docker push gayatri963/netflix:v1
-      - name: Deploy Container
-        run: |
-         docker stop netflix || true
-         docker rm netflix || true
-         docker pull gayatri963/netflix:v1
-         docker run -d -p 80:80 --name netflix gayatri963/netflix:v1
-
-         deploy_to_kubernetes:
+     
+        deploy_to_kubernetes:
            runs-on: self-hosted
            needs: buils_docker_image_and_push
 
@@ -108,5 +102,5 @@ jobs:
   
          - name: Deploy to GKE
            run: |
-           kubectl apply -f ds.yml
+            kubectl apply -f ds.yml
 
