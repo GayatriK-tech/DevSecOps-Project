@@ -81,3 +81,32 @@ jobs:
          docker pull gayatri963/netflix:v1
          docker run -d -p 80:80 --name netflix gayatri963/netflix:v1
 
+         deploy_to_kubernetes:
+           runs-on: self-hosted
+           needs: buils_docker_image_and_push
+
+          steps:
+         - name: Checkout code
+           uses: actions/checkout@v4
+
+         - name: Authenticate to GCP
+           uses: google-github-actions/auth@v2
+           with:
+           credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+         - name: Set up gcloud
+           uses: google-github-actions/setup-gcloud@v2
+           with:
+           project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+         - name: Get GKE credentials
+           uses: google-github-actions/get-gke-credentials@v2
+           with:
+           cluster_name: ${{ secrets.GKE_CLUSTER }}
+           location: ${{ secrets.GKE_ZONE }}
+
+  
+         - name: Deploy to GKE
+           run: |
+           kubectl apply -f ds.yml
+
