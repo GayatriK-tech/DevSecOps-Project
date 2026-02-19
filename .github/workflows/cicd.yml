@@ -95,7 +95,9 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Install kubectl
-        uses: google-github-actions/setup-kubectl@v2
+        uses: azure/setup-kubectl@v4
+        with:
+          version: "latest" 
 
       - name: Get GKE credentials
         uses: google-github-actions/get-gke-credentials@v2
